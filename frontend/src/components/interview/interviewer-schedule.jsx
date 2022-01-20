@@ -15,7 +15,6 @@ class InterviewerSchedule extends React.Component {
     var num_int = result['num_int'];
     var interviews = result['interviews'];
     var list = Array.from({ length: num_int })
-    console.log(result)
     if (!num_int){
       num_int = '0'
     }
@@ -52,6 +51,10 @@ class InterviewerSchedule extends React.Component {
                   var hour = Math.floor((time_slot - 24) / 2);
                 }
                 var date = dayjs(start_date).add(day, 'day');
+
+                if(hour === 0){
+                  hour = 12
+                }
 
                 var final = date.format('MM/DD') + " " + hour.toString(10) + half + am;
                 var interviewee = interviews[i][1][1];

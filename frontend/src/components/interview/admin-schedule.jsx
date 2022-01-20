@@ -47,7 +47,7 @@ class AdminSchedule extends React.Component {
                 var date = dayjs(start_date).add(day, 'day');
 
                 var final = date.format('MM/DD') + " " + hour.toString(10) + half + am;
-
+                console.log(interviews[i]["interviewers"])
                 var interviewer1 = interviews[i]['interviewers'][0]['team'] + ": " + interviews[i]['interviewers'][0]['name'];
                 var interviewer2 = interviews[i]['interviewers'][1]['team'] + ": " + interviews[i]['interviewers'][1]['name'];
 

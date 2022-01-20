@@ -10,6 +10,14 @@ def signup():
 def signout():
   return User().signout()
 
+@app.route("/api/interviewee/get", methods=["GET"])
+def get_interviewee_data():
+  return User().get_interviewee_data()
+
+@app.route("/api/interviewer/get", methods=["GET"])
+def get_interviewer_data():
+  return User().get_interviewer_data()
+
 @app.route('/api/user/login', methods=['POST'])
 def login():
   return User().login()

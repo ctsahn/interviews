@@ -32,8 +32,19 @@ class Interview extends React.Component {
     this.onBack = this.onBack.bind(this);
   }
 
-  setUser(user) {
-    this.setState({ user })
+  setUser = async(user)=> {
+    
+    if(user.role!=="Admin"){
+
+    
+    var { data: data } = await axios.get('/api/get-time')
+    this.setState({ user,info: data});
+    }
+    else{
+      this.setState({user}); // if admin
+    }
+
+    
   }
 
   login = async (user, checkSchedule = false) => {

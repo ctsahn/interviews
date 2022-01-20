@@ -6,22 +6,32 @@ import dayjs from 'dayjs'
 class Interviewer extends React.Component {
   constructor(props) {
     super(props);
+    var {
+      sdate,
+      stime,
+      d,
+      h
+    } = this.props;
     this.state = {
       error: '',
-      start_date: '',
-      start_time: null,
-      days: 0,
-      hours: 0,
-      grid: [],
+      start_date: sdate,
+      start_time: stime,
+      days: d,
+      hours: h,
+      grid: null,
       max_int: '',
       team: '',
     };
+
+    this.getData();
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
+
+    /*
     var {
       start_date,
       start_time,
@@ -35,7 +45,7 @@ class Interviewer extends React.Component {
       days,
       hours,
       grid: Array(hours * 2).fill(0).map(() => Array(days).fill(0))
-    })
+    })*/
 
   }
 
@@ -73,7 +83,73 @@ class Interviewer extends React.Component {
     }
   }
 
+  async getData(e){
+    //e.preventDefault();
+    try{
+      let datafields = await axios.get("api/interviewer/get");
+      
+      if(datafields.data.team !== ''){
+        this.setState({team:datafields.data.team});
+      }
+
+      if(datafields.data.max_int !== ''){
+        this.setState({max_int:datafields.data.max_int});
+      }
+
+
+      var {
+        start_date,
+        start_time,
+        days,
+        hours
+      } = this.props;
+
+      if(datafields.data.time){
+        
+        this.setState({grid:datafields.data.time});
+
+        this.setState({
+          start_date,
+          start_time,
+          days, 
+          hours});
+
+      }
+      else{
+
+
+
+        this.setState({
+          start_date,
+          start_time,
+          days, 
+          hours,
+          grid: Array(hours * 2).fill(0).map(() => Array(days).fill(0))
+        })
+        //this.setState({grid:Array(hours * 2).fill(0).map(() => Array(days).fill(0))});
+      }
+
+
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+
+  formatTime(time){
+
+    if(time === 0){
+      return 12;
+    }
+    else{
+      return time;
+    }
+  }
+
   render() {
+
+    const timeStyle = {paddingRight: "50px",};
+    const headerStyle = {paddingRight: "80px",};
     return (
       <div className="card">
         <h1 className="center">Availability</h1>
@@ -82,11 +158,11 @@ class Interviewer extends React.Component {
           <p>
             <select name='max_int' className="field" value={this.state.max_int} onChange={this.handleChange}>
               <option></option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
               <option value={6}>6</option>
-              <option value={7}>7</option >
-              <option value={8}>8</option >
+              <option value={7}>7</option>
+              <option value={8}>8</option>
+              <option value={9}>9</option >
+              <option value={10}>10</option >
             </select >
           </p >
 
@@ -94,23 +170,22 @@ class Interviewer extends React.Component {
           <p>
             <select name='team' className="field" value={this.state.team} onChange={this.handleChange}>
               <option></option>
-              <option value="Logistics">Transport/Logistics/Food</option>
+              <option value="Logistics">Logistics</option>
               <option value="Social/PR">Social/PR</option>
               <option value="Sponsors">Sponsors</option>
               <option value="Website">Website</option>
               <option value="Design">Design</option>
-              <option value="Membership">Membership</option>
             </select>
           </p>
 
           <label htmlFor="time">Time Available (please select all that apply):</label>
 
           <div className="row">
-            <span className="row-cell" key={`row-null`}></span>
+            <span className="row-cell" key={`row-null`} style={headerStyle}></span>
             {Array.from({length:this.state.days}).map((o2, i2) => {
               return (
-                <span key={`header-${i2}`} className="header-date">
-                  {dayjs(this.state.start_date).add(i2, 'day').format('MM/DD')}
+                <span key={`header-${i2}`} className="header-date" >
+                  {dayjs(this.state.start_date).add(i2, 'day').format('M/DD')}
                 </span>
               )
             })}
@@ -118,10 +193,10 @@ class Interviewer extends React.Component {
           {Array.from({ length: this.state.hours }).map((o1, i1) => {
             return (
               <div key={`${i1}`} className="row">
-                <span className="row-cell" key={`row-${i1}`}>
+                <span className="row-cell" key={`row-${i1}`} style={timeStyle}>
                   {(this.state.start_time + i1) % 2 ? 
-                    Math.floor((this.state.start_time % 24) / 2) + Math.floor(i1 / 2) + ":30" + (this.state.start_time < 24 ? "AM" : "PM") : 
-                    Math.floor((this.state.start_time % 24) / 2) + Math.floor(i1 / 2) + ":00" + (this.state.start_time < 24 ? "AM" : "PM")}
+                    this.formatTime(Math.floor((this.state.start_time % 24) / 2) + Math.floor(i1 / 2)) + ":30" + (this.state.start_time < 24 ? "AM" : "PM") : 
+                    this.formatTime(Math.floor((this.state.start_time % 24) / 2) + Math.floor(i1 / 2)) + ":00" + (this.state.start_time < 24 ? "AM" : "PM")}
                 </span>
                 {Array.from({ length: this.state.days }).map((o2, i2) => {
                   return (

@@ -1,3 +1,3 @@
 {
-	"mongo_uri": "mongodb://admin:HopHacks!8@hophacks-site-shard-00-00-2jqu8.mongodb.net:27017,hophacks-site-shard-00-01-2jqu8.mongodb.net:27017,hophacks-site-shard-00-02-2jqu8.mongodb.net:27017/meteor?ssl=true&replicaSet=hophacks-site-shard-0&authSource=admin"
+	"mongo_uri": "mongodb://admin:HopH%40cks3000!@hophacks-site-shard-00-00-2jqu8.mongodb.net:27017,hophacks-site-shard-00-01-2jqu8.mongodb.net:27017,hophacks-site-shard-00-02-2jqu8.mongodb.net:27017/meteor?ssl=true&replicaSet=hophacks-site-shard-0&authSource=admin"
 }

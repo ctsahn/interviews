@@ -2,6 +2,7 @@ from flask import Flask, render_template, session, redirect
 from functools import wraps
 import pymongo
 import os
+from flask_cors import CORS
 
 #app = Flask(__name__)
 #app.secret_key = b'\xcc^\x91\xea\x17-\xd0W\x03\xa7\xf8J0\xac8\xc5'
@@ -34,7 +35,7 @@ client = init_database()
 db = client.interview_matcher
 #app = Flask(__name__)
 #app.secret_key = b'\xcc^\x91\xea\x17-\xd0W\x03\xa7\xf8J0\xac8\xc5'
-
+CORS(app)
 @app.route('/')
 def index():
     return send_from_directory(root, 'index.html')

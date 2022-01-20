@@ -120,6 +120,18 @@ class User:
 
     return jsonify(user), 200
 
+  def get_interviewee_data(self):
+    user = session['user']
+    query = {"_id" : user['_id']}
+    res = db.interview_users.find_one(query)
+    return jsonify(res),200
+
+  def get_interviewer_data(self):
+    user = session['user']
+    query = {"_id" : user['_id']}
+    res = db.interview_users.find_one(query)
+    return jsonify(res),200
+
   def update_admin(self):
     user = session['user']
     print("update admin")

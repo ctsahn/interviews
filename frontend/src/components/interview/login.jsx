@@ -71,7 +71,7 @@ class Login extends React.Component {
           <p className={this.state.error ? "error" : 'error error--hidden'}>{this.state.error}</p>
 
           <button onClick={this.login} className="btn-left" >Log In</button>
-          <button onClick={e => this.login(e, true)} className="btn-right">Interview Schedule</button>
+          <button onClick={e => this.login(e, true)} className="btn-right">View Interview Time</button>
         </form>
       </div>)
   };

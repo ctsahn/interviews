@@ -25,7 +25,15 @@ class IntervieweeSchedule extends React.Component {
       var hour = Math.floor((time_slot - 24) / 2);
     }
     var date = dayjs(start_date).add(day, 'day');
+
+    if(hour === 0){
+      hour = 12
+    }
     var final = date.format('MM/DD') + " " + hour.toString(10) + half + am;
+
+    if(final.includes("NaN")){
+      final = "TBD";
+    }
 
     return (
       <div className="card">
