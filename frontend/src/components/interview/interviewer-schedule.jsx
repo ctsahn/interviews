@@ -40,23 +40,32 @@ class InterviewerSchedule extends React.Component {
             {
               interviews && interviews.length && list.map((o, i) => {
                 var time = interviews[i][0];
-                var day = Math.floor(time / hours);
-                var time_slot = (time - day * hours) % hours + parseInt(start_time, 10);
-                var half = time_slot % 2 ? ":30" : ":00";
-                if (time_slot < 24) {
-                  var am = "AM";
-                  var hour = Math.floor(time_slot / 2);
-                } else {
-                  var am = "PM";
-                  var hour = Math.floor((time_slot - 24) / 2);
+                
+                var day = Math.floor(time % 14);
+                
+                var time_slot = Math.floor(time/14 + 1);
+
+                var hour = 0;
+
+                var half = ":00";
+
+                if(time_slot%2 == 0){
+                  half = ":30";
+                  hour = hour-1;
                 }
+
+           
+
+                hour=hour+Math.floor(time_slot/2);
+
+                if(hour == 0){
+                  hour = 12;
+                }
+
                 var date = dayjs(start_date).add(day, 'day');
 
-                if(hour === 0){
-                  hour = 12
-                }
-
-                var final = date.format('MM/DD') + " " + hour.toString(10) + half + am;
+                
+                var final = date.format("MM/DD") + " " +hour.toString(10)+half+ "PM"
                 var interviewee = interviews[i][1][1];
                 return (<tr><td>{final}</td><td>{interviewee}</td></tr>)
               })

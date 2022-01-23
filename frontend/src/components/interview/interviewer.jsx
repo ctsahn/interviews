@@ -148,6 +148,11 @@ class Interviewer extends React.Component {
 
   render() {
 
+    console.log(this.state.grid);
+
+
+    var count= -1;
+
     const timeStyle = {paddingRight: "50px",};
     const headerStyle = {paddingRight: "80px",};
     return (
@@ -199,10 +204,12 @@ class Interviewer extends React.Component {
                     this.formatTime(Math.floor((this.state.start_time % 24) / 2) + Math.floor(i1 / 2)) + ":00" + (this.state.start_time < 24 ? "AM" : "PM")}
                 </span>
                 {Array.from({ length: this.state.days }).map((o2, i2) => {
+                  count =count+1;
                   return (
                     <span className={this.state.grid[i1][i2] ? 'cell selected' : 'cell'}
                       key={`${i1}-${i2}`}
                       onClick={() => this.toggle(i1, i2)}>
+                        {count}
                     </span>
                   )
                 })}
